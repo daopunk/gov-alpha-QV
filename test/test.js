@@ -32,7 +32,15 @@ describe("GovernorAlpha", function () {
   it("should mint tokens to the address 1", async function () {
     const balance = await token.balanceOf(addr1);
     assert.equal(balance.toString(), ethers.utils.parseEther("10000000").toString());
+    console.log(`${addr1}: ${balance}`);
   });
+
+  // air-drop
+  // describe('air drop to listed accounts', () => {
+  //   beforeEach(async () => {
+
+  //   })
+  // })
 
   describe("create a proposal", () => {
     beforeEach(async () => {
@@ -41,7 +49,7 @@ describe("GovernorAlpha", function () {
       const targets = [example.address];
       const values = ["0"];
       const signatures = [""];
-      const calldatas = [example.interface.encodeFunctionData("changeMsg", ["Destroy All Humans!"])];
+      const calldatas = [example.interface.encodeFunctionData("changeMsg", ["Anarchy!"])];
       const description = "Setting a new message!";
 
       await govAlpha.propose(targets, values, signatures, calldatas, description);
@@ -55,7 +63,9 @@ describe("GovernorAlpha", function () {
     describe("vote on the proposal", async () => {
       beforeEach(async () => {
         await hre.network.provider.send("evm_mine");
-        await govAlpha.castVote(1, true);
+        const voteWeight = await govAlpha.castVote(1, false);
+        console.log(`voteWeight:`);
+        console.log(voteWeight);
 
         const { startBlock, endBlock } = await govAlpha.proposals(1);
         const diff = endBlock.sub(startBlock);
@@ -66,25 +76,26 @@ describe("GovernorAlpha", function () {
 
       it("should change the proposal state", async () => {
         const state = await govAlpha.state(1);
-        assert.equal(state.toString(), "4");
+        assert.equal(state.toString(), "3");
       });
 
-      describe("execute the proposal", () => {
-        beforeEach(async () => {
-          await govAlpha.queue(1);
+      // describe("execute the proposal", () => {
+      //   beforeEach(async () => {
+      //     await govAlpha.queue(1);
 
-          const { eta } = await govAlpha.proposals(1);
+      //     const { eta } = await govAlpha.proposals(1);
 
-          await hre.network.provider.send("evm_setNextBlockTimestamp", [eta.toNumber()]);
+      //     await hre.network.provider.send("evm_setNextBlockTimestamp", [eta.toNumber()]);
 
-          await govAlpha.execute(1);
-        });
+      //     await govAlpha.execute(1);
+      //   });
 
-        it("should change the message", async () => {
-          const message = await example.message();
-          assert.equal(message, "Destroy All Humans!");
-        });
-      });
+      //   it("should change the message", async () => {
+      //     const message = await example.message();
+      //     assert.equal(message, "Anarchy!");
+      //     console.log(message);
+      //   });
+      // });
     });
   });
 });

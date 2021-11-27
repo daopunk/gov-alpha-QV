@@ -1,6 +1,6 @@
 const hre = require("hardhat");
 
-const govAlphaAddr = "0xABFed4507fE61155305718bbb94fD3fe214B13F3";
+const govAlphaAddr = "0x1505c74f24DaDB71fa27b00081aEE495FbF6e08E";
 
 async function main() {
   const govAlpha = await ethers.getContractAt("GovernorAlpha", govAlphaAddr);

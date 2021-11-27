@@ -1,8 +1,8 @@
 const hre = require("hardhat");
 
-const exampleAddr = "0x1492a02507Ab07F42e0Ad68Df2c201555334Dcb1";
-const govAlphaAddr = "0xABFed4507fE61155305718bbb94fD3fe214B13F3";
-const tokenAddr = "0xE30a4B00e7197F47CE120a28208cC145a269aa49";
+const exampleAddr = "0xC86Df794BBf12F19476149813efAD3ECfa8b10Fd";
+const govAlphaAddr = "0x1505c74f24DaDB71fa27b00081aEE495FbF6e08E";
+const tokenAddr = "0xb2A0381Eeeca8849128C583bf8a508D549628CDC";
 
 async function main() {
   const [addr1] = await ethers.provider.listAccounts();
@@ -13,7 +13,7 @@ async function main() {
   const targets = [exampleAddr];
   const values = ["0"];
   const signatures = [""];
-  const calldatas = [example.interface.encodeFunctionData("changeMsg", ["Destroy All Humans!"])];
+  const calldatas = [example.interface.encodeFunctionData("changeMsg", ["Anarchy!"])];
   const description = "Setting a new message!";
 
   const govAlpha = await ethers.getContractAt("GovernorAlpha", govAlphaAddr);

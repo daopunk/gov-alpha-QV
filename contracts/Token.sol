@@ -3,10 +3,10 @@ pragma experimental ABIEncoderV2;
 
 contract Token {
     /// @notice EIP-20 token name for this token
-    string public constant name = "Dalek";
+    string public constant name = "Confed";
 
     /// @notice EIP-20 token symbol for this token
-    string public constant symbol = "DLK";
+    string public constant symbol = "CFD";
 
     /// @notice EIP-20 token decimals for this token
     uint8 public constant decimals = 18;

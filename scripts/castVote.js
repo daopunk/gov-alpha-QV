@@ -1,7 +1,7 @@
 const hre = require("hardhat");
 
-const govAlphaAddr = "0xABFed4507fE61155305718bbb94fD3fe214B13F3";
-const tokenAddr = "0xE30a4B00e7197F47CE120a28208cC145a269aa49";
+const govAlphaAddr = "0x1505c74f24DaDB71fa27b00081aEE495FbF6e08E";
+const tokenAddr = "0xb2A0381Eeeca8849128C583bf8a508D549628CDC";
 
 async function main() {
   const [addr1] = await ethers.provider.listAccounts();
