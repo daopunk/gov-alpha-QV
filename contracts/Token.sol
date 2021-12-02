@@ -179,6 +179,16 @@ contract Token {
         return nCheckpoints > 0 ? checkpoints[account][nCheckpoints - 1].votes : 0;
     }
 
+    function getPriorVotes(address account, uint blockNumber) public view returns(uint96 v) {
+        uint96 votes = _getPriorVotes(account, blockNumber);
+        uint96 z = (votes + 1) / 2;
+        v = z;
+        while (z < v) {
+            v = z;
+            z = (votes / z + z) / 2;
+        }
+    }
+
     /**
      * @notice Determine the prior number of votes for an account as of a block number
      * @dev Block number must be a finalized block or else this function will revert to prevent misinformation.
@@ -186,7 +196,7 @@ contract Token {
      * @param blockNumber The block number to get the vote balance at
      * @return The number of votes the account had as of the given block
      */
-    function getPriorVotes(address account, uint blockNumber) public view returns (uint96) {
+    function _getPriorVotes(address account, uint blockNumber) private view returns (uint96) { //private
         require(blockNumber < block.number, "Comp::getPriorVotes: not yet determined");
 
         uint32 nCheckpoints = numCheckpoints[account];
@@ -196,7 +206,7 @@ contract Token {
 
         // First check most recent balance
         if (checkpoints[account][nCheckpoints - 1].fromBlock <= blockNumber) {
-            return checkpoints[account][nCheckpoints - 1].votes;
+            return checkpoints[account][nCheckpoints - 1].votes;//
         }
 
         // Next check implicit zero balance
@@ -210,14 +220,14 @@ contract Token {
             uint32 center = upper - (upper - lower) / 2; // ceil, avoiding overflow
             Checkpoint memory cp = checkpoints[account][center];
             if (cp.fromBlock == blockNumber) {
-                return cp.votes;
+                return cp.votes;//
             } else if (cp.fromBlock < blockNumber) {
                 lower = center;
             } else {
                 upper = center - 1;
             }
         }
-        return checkpoints[account][lower].votes;
+        return checkpoints[account][lower].votes;//
     }
 
     function _delegate(address delegator, address delegatee) internal {
